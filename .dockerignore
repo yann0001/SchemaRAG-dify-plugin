@@ -1,0 +1,14 @@
+# 构建产物
+.venv*
+__pycache__
+*.pyc
+.git
+.github
+test/
+docs/
+demo/
+*.md
+
+# 避免把其他 ISO 打进构建上下文；仅允许 dm8.iso
+*.iso
+!dm8.iso

@@ -1,0 +1,88 @@
+# syntax=docker/dockerfile:1
+FROM python:3.12-slim-bookworm AS schemarag-dameng
+
+# ============================================================
+# 1) 系统层依赖（apt）
+#    - 使用阿里云 Debian Bookworm 镜像加速
+#    - gcc/g++/make: 编译 dmPython
+#    - libarchive-tools/gzip/tar: 解 ISO + DMInstall.bin 的 gzip 载荷
+#    - libaio-dev/libncurses6: dmPython / DM client 依赖
+# ============================================================
+RUN sed -i \
+        -e 's|http://deb.debian.org/debian|https://mirrors.aliyun.com/debian|g' \
+        -e 's|http://deb.debian.org/debian-security|https://mirrors.aliyun.com/debian-security|g' \
+        /etc/apt/sources.list.d/debian.sources && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get -o Acquire::Retries=5 update && \
+    apt-get install -y --no-install-recommends \
+        ca-certificates \
+        gcc g++ make \
+        libarchive-tools \
+        gzip tar \
+        libaio-dev libncurses6 && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+# ============================================================
+# 2) 升级 pip / setuptools / wheel
+#    - dmPython / dmSQLAlchemy 走 setup.py install，需要现代构建工具
+# ============================================================
+RUN python -m pip install --no-cache-dir \
+        -i https://mirrors.aliyun.com/pypi/simple/ \
+        --trusted-host mirrors.aliyun.com \
+        --upgrade pip setuptools wheel
+
+# ============================================================
+# 3) 安装项目 Python 依赖（requirements.txt，不过滤）
+#    - 先让 pip 按 requirements.txt 把全部依赖装一遍（含 pip 版 dmPython / dmSQLAlchemy）
+#    - 之后第 5/6 步再用 ISO 源码 setup.py install 覆盖，保证带正确 DPI / 加密模块
+# ============================================================
+COPY requirements.txt /tmp/requirements.txt
+RUN pip install --no-cache-dir \
+        -i https://mirrors.aliyun.com/pypi/simple/ \
+        --trusted-host mirrors.aliyun.com \
+        -r /tmp/requirements.txt
+
+# ============================================================
+# 4) 达梦安装介质（Ubuntu22 x86_64）
+#    用法：
+#    - 从达梦官网下载 dm8_..._x86_Ubuntu22_64.zip 解压得到 .iso
+#    - 把 .iso 放到项目根目录并重命名为 dm8.iso
+# ============================================================
+COPY dm8.iso /tmp/dm8.iso
+
+# 从 ISO 提取 DMInstall.bin，再从 DMInstall.bin 中抽取 Install.tar.gz 解包到 /opt/dm8
+RUN mkdir -p /tmp/dm8-iso /opt/dm8 && \
+    bsdtar -xf /tmp/dm8.iso -C /tmp/dm8-iso && \
+    test -f /tmp/dm8-iso/DMInstall.bin && \
+    python -c "from pathlib import Path; b=Path('/tmp/dm8-iso/DMInstall.bin').read_bytes(); off=b.find(b'\\x1f\\x8b\\x08'); (off!=-1) or (_ for _ in ()).throw(SystemExit('gzip header not found in DMInstall.bin')); Path('/tmp/Install.tar.gz').write_bytes(b[off:]); print('payload_offset', off)" && \
+    gzip -dc /tmp/Install.tar.gz | tar -xf - -C /opt/dm8 && \
+    rm -rf /tmp/dm8.iso /tmp/dm8-iso /tmp/Install.tar.gz
+
+# 环境变量（dmPython 文档要求：DM_HOME + LD_LIBRARY_PATH 指向 bin 或 drivers/dpi）
+ENV DM_HOME=/opt/dm8/source
+ENV LD_LIBRARY_PATH=/opt/dm8/source/bin:/opt/dm8/source/bin/dependencies:${LD_LIBRARY_PATH}
+ENV PATH=/opt/dm8/source/bin:${PATH}
+ENV PYTHONPATH=/app:${PYTHONPATH}
+
+# ============================================================
+# 5) 源码安装 dmPython（基于 ISO 自带的 dpi 头/库，避免 pip wheel 缺加密模块）
+# ============================================================
+RUN cd /opt/dm8/source/drivers/python/dmPython && \
+    python setup.py install && \
+    python -c "import dmPython; print('dmPython import OK')"
+
+# ============================================================
+# 6) 源码安装 dmSQLAlchemy（SQLAlchemy 2.0 版本）
+# ============================================================
+RUN cd /opt/dm8/source/drivers/python/dmSQLAlchemy/dmSQLAlchemy2.0 && \
+    python setup.py install && \
+    python -c "import dmSQLAlchemy; print('dmSQLAlchemy import OK')"
+
+# ============================================================
+# 7) 拷贝项目代码（放在最后，避免代码改动击穿前面所有缓存层）
+# ============================================================
+COPY . .
+
+CMD ["python", "test_dameng_conn.py"]
