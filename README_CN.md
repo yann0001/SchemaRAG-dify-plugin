@@ -82,19 +82,96 @@ uv run main.py
 ### 方式三：代码调用
 
 ```python
-from provider.build_schema_rag import BuildSchemaRAG
+import sys
+import os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-builder = BuildSchemaRAG(
-    dataset_api_key="your-key",
-    db_type="MySQL",
-    db_host="localhost",
-    db_port=3306,
-    db_user="root",
-    db_password="password",
-    db_name="your_db"
+from service.schema_builder import SchemaRAGBuilder
+from config import DatabaseConfig, LoggerConfig
+
+# 创建配置
+db_config = DatabaseConfig(
+    type="mysql",
+    host="192.168.71.65",
+    port=3306,
+    user="root",
+    password="!37MQNma",
+    database="supplier"
 )
-result = builder.toschema()
+
+logger_config = LoggerConfig(log_level="INFO")
+
+# 创建构建器（dify_config=None 表示只生成 schema，不上传）
+builder = SchemaRAGBuilder(
+    db_config=db_config,
+    logger_config=logger_config,
+    dify_config=None
+)
+
+# 生成 schema
+result = builder.generate_dictionary()
 print(result)
+
+builder.close()
+```
+
+### 方式四：命令行提取 Schema 到文件
+
+不通过 Dify 插件，直接从数据库提取 schema 保存到本地文件：
+
+**1. 创建数据库配置文件 `db_config.json`：**
+
+```json
+{
+    "type": "mysql",
+    "host": "192.168.71.65",
+    "port": 3306,
+    "user": "root",
+    "password": "!37MQNma",
+    "database": "supplier"
+}
+```
+
+**2. 执行提取命令：**
+
+```bash
+uv run python extract_schema.py --config db_config.json --output supplier_schema.txt --no-examples
+```
+
+**参数说明：**
+
+| 参数 | 默认值 | 说明 |
+|------|--------|------|
+| `--config`, `-c` | `db_config.json` | 数据库配置文件路径 |
+| `--output`, `-o` | `schema.txt` | 输出文件路径 |
+| `--no-examples` | false | 跳过示例数据查询，可大幅缩短执行时间 |
+
+**3. 输出示例：**
+
+```
+正在连接数据库: 192.168.71.65:3306/supplier
+✓ Schema 已保存到: supplier_schema.txt
+✓ 共包含 66 个表
+
+表列表:
+  - application_component_relation
+  - application_network_asset_relation
+  - component_comprehensive_assessment
+  ...
+```
+
+生成的 schema 文件格式如下，可直接上传到 Dify 知识库：
+
+```schema
+【DB_ID】 supplier
+【Schema】
+# Table: black_list_record, 黑名单记录表
+[
+    (id:BIGINT, 主键, Primary Key, Examples: [1, 2, 3]),
+    (supplier_name:VARCHAR, 供应商名称, Examples: [测试公司1, 阿里云计算有限公司]),
+    (create_time:DATETIME, 创建时间, Examples: [2025-12-12 06:06:42]),
+    ...
+]
 ```
 
 ---
