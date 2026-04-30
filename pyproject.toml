@@ -1,6 +1,6 @@
 [project]
 name = "SchemaRAG"
-version = "0.1.6"
+version = "0.1.7"
 description = "Build database schema for RAG in Dify dataset"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -33,3 +33,8 @@ packages = ["tools", "service", "core", "provider"]
 
 [tool.setuptools.package-data]
 "*" = ["*.yaml", "*.yml"]
+
+# 默认使用清华 PyPI 镜像（uv sync / uv lock）；与 pip 的 --index-url 等价源
+[[tool.uv.index]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true

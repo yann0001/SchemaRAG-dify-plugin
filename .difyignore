@@ -182,3 +182,6 @@ test/
 docs/
 output/
 *.difypkg
+
+# 本地数据库镜像等，不参与插件分发
+*.iso

@@ -1,16 +1,14 @@
 # SchemaRAG 数据库架构RAG插件
 
-[![Version](https://img.shields.io/badge/version-0.1.6-blue.svg)](https://github.com/weijunjiang123/schemarag)
-[![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/)
+[Version](https://github.com/weijunjiang123/schemarag)
+[Python](https://www.python.org/)
 
 **作者:** joto  
 **版本:** 0.1.6 
 **类型:** 工具
-**仓库:** <https://github.com/JOTO-AI/SchemaRAG-dify-plugin>
+**仓库:** [https://github.com/JOTO-AI/SchemaRAG-dify-plugin](https://github.com/JOTO-AI/SchemaRAG-dify-plugin)
 
 ---
-
-<img src="./_assets/logo.jpg" height="100" alt="logo" style="border-radius:10px;">
 
 ## 概述
 
@@ -35,26 +33,30 @@ SchemaRAG 是一个专为 Dify 平台设计的数据库架构RAG插件，能够�
 
 ## 📋 配置参数
 
-| 参数名            | 类型     | 必填 | 说明                         | 示例                      |
-|------------------|----------|------|------------------------------|---------------------------|
-| Dataset API Key  | secret   | 是   | Dify知识库API密钥             | dataset-xxx               |
-| Database Type    | select   | 是   | 数据库类型 MySQL/PostgreSQL... | MySQL                     |
-| Database Host    | string   | 是   | 数据库主机/IP                 | 127.0.0.1                 |
-| Database Port    | number   | 是   | 数据库端口                    | 3306/5432                 |
-| Database User    | string   | 是   | 数据库用户名                  | root                      |
-| Database Password| secret   | 是   | 数据库密码                    | ******                    |
-| Database Name    | string   | 是   | 数据库名称                    | mydb                      |
-| Dify Base URL    | string   | 否   | Dify API基础URL               | `https://api.dify.ai/v1`  |
+
+| 参数名               | 类型     | 必填  | 说明                        | 示例                       |
+| ----------------- | ------ | --- | ------------------------- | ------------------------ |
+| Dataset API Key   | secret | 是   | Dify知识库API密钥              | dataset-xxx              |
+| Database Type     | select | 是   | 数据库类型 MySQL/PostgreSQL... | MySQL                    |
+| Database Host     | string | 是   | 数据库主机/IP                  | 127.0.0.1                |
+| Database Port     | number | 是   | 数据库端口                     | 3306/5432                |
+| Database User     | string | 是   | 数据库用户名                    | root                     |
+| Database Password | secret | 是   | 数据库密码                     | ******                   |
+| Database Name     | string | 是   | 数据库名称                     | mydb                     |
+| Dify Base URL     | string | 否   | Dify API基础URL             | `https://api.dify.ai/v1` |
+
 
 ## 支持的数据库类型
 
-| 数据库类型 | 默认端口 | 驱动程序 | 连接字符串格式 |
-|------------|----------|----------|----------------|
-| MySQL | 3306 | pymysql | `mysql+pymysql://user:password@host:port/database` |
-| PostgreSQL | 5432 | psycopg2-binary | `postgresql://user:password@host:port/database` |
-| Microsoft SQL Server | 1433 | pymssql | `mssql+pymssql://user:password@host:port/database` |
-| Oracle | 1521 | oracledb | `oracle+oracledb://user:password@host:port/database` |
-| 达梦数据库 | 5236 | dm+pymysql | `dm+pymysql://user:password@host:port/database` |
+
+| 数据库类型                | 默认端口 | 驱动程序            | 连接字符串格式                                              |
+| -------------------- | ---- | --------------- | ---------------------------------------------------- |
+| MySQL                | 3306 | pymysql         | `mysql+pymysql://user:password@host:port/database`   |
+| PostgreSQL           | 5432 | psycopg2-binary | `postgresql://user:password@host:port/database`      |
+| Microsoft SQL Server | 1433 | pymssql         | `mssql+pymssql://user:password@host:port/database`   |
+| Oracle               | 1521 | oracledb        | `oracle+oracledb://user:password@host:port/database` |
+| 达梦数据库                | 5236 | dm+pymysql      | `dm+pymysql://user:password@host:port/database`      |
+
 
 ---
 
@@ -69,15 +71,17 @@ uv run main.py
 ### 方式二：Dify 插件集成
 
 1. 在 Dify 平台插件配置界面填写上述参数
-![插件配置](./_assets/image-1.png)
 
-2. 在配置好，准确无误后点击保存，会自动在dify中构建配置的数据库schema知识库
+插件配置
 
-3. 在工作流中添加工具，并配置刚刚创建的知识库id（知识库id在知识库页面的URL处）
-![工作流节点配置](./_assets/image-4.png)
+1. 在配置好，准确无误后点击保存，会自动在dify中构建配置的数据库schema知识库
+2. 在工作流中添加工具，并配置刚刚创建的知识库id（知识库id在知识库页面的URL处）
 
-4. 提供sql执行工具，传入生成的sql可直接执行，支持md，json输出
-![工作流节点配置](./_assets/image-5.png)
+工作流节点配置
+
+1. 提供sql执行工具，传入生成的sql可直接执行，支持md，json输出
+
+工作流节点配置
 
 ### 方式三：代码调用
 
@@ -140,11 +144,13 @@ uv run python extract_schema.py --config db_config.json --output supplier_schema
 
 **参数说明：**
 
-| 参数 | 默认值 | 说明 |
-|------|--------|------|
-| `--config`, `-c` | `db_config.json` | 数据库配置文件路径 |
-| `--output`, `-o` | `schema.txt` | 输出文件路径 |
-| `--no-examples` | false | 跳过示例数据查询，可大幅缩短执行时间 |
+
+| 参数               | 默认值              | 说明                 |
+| ---------------- | ---------------- | ------------------ |
+| `--config`, `-c` | `db_config.json` | 数据库配置文件路径          |
+| `--output`, `-o` | `schema.txt`     | 输出文件路径             |
+| `--no-examples`  | false            | 跳过示例数据查询，可大幅缩短执行时间 |
+
 
 **3. 输出示例：**
 
@@ -192,13 +198,15 @@ uv run python extract_schema.py --config db_config.json --output supplier_schema
 
 #### 参数说明
 
-| 参数名 | 类型 | 必填 | 描述 |
-|--------|------|------|------|
-| dataset_id | string | 是 | 包含数据库架构的Dify知识库ID |
-| llm | model-selector | 是 | 用于生成SQL的大语言模型 |
-| content | string | 是 | 要转换为SQL的自然语言问题 |
-| dialect | select | 是 | SQL方言（MySQL/PostgreSQL）|
-| top_k | number | 否 | 从知识库检索的结果数量（默认5）|
+
+| 参数名        | 类型             | 必填  | 描述                      |
+| ---------- | -------------- | --- | ----------------------- |
+| dataset_id | string         | 是   | 包含数据库架构的Dify知识库ID       |
+| llm        | model-selector | 是   | 用于生成SQL的大语言模型           |
+| content    | string         | 是   | 要转换为SQL的自然语言问题          |
+| dialect    | select         | 是   | SQL方言（MySQL/PostgreSQL） |
+| top_k      | number         | 否   | 从知识库检索的结果数量（默认5）        |
+
 
 ### 2. sql_executer 工具
 
@@ -214,11 +222,13 @@ uv run python extract_schema.py --config db_config.json --output supplier_schema
 
 #### 参数说明
 
-| 参数名 | 类型 | 必填 | 描述 |
-|--------|------|------|------|
-| sql | string | 是 | 要执行的SQL查询语句 |
-| output_format | select | 是 | 输出格式（JSON/Markdown）|
-| max_line | int | 否 | 查询到的最大行数（默认1000行）|
+
+| 参数名           | 类型     | 必填  | 描述                  |
+| ------------- | ------ | --- | ------------------- |
+| sql           | string | 是   | 要执行的SQL查询语句         |
+| output_format | select | 是   | 输出格式（JSON/Markdown） |
+| max_line      | int    | 否   | 查询到的最大行数（默认1000行）   |
+
 
 ### 3. sql_executer_cust 工具
 
@@ -235,14 +245,17 @@ uv run python extract_schema.py --config db_config.json --output supplier_schema
 
 #### 参数说明
 
-| 参数名 | 类型 | 必填 | 描述 |
-|--------|------|------|------|
-| database_url | string | 是 | 数据库连接url |
-| sql | string | 是 | 要执行的SQL查询语句 |
-| output_format | select | 是 | 输出格式（JSON/Markdown）|
-| max_line | int | 否 | 查询到的最大行数（默认1000行）|
+
+| 参数名           | 类型     | 必填  | 描述                  |
+| ------------- | ------ | --- | ------------------- |
+| database_url  | string | 是   | 数据库连接url            |
+| sql           | string | 是   | 要执行的SQL查询语句         |
+| output_format | select | 是   | 输出格式（JSON/Markdown） |
+| max_line      | int    | 否   | 查询到的最大行数（默认1000行）   |
+
 
 数据库连接url示例：
+
 - mysql：mysql://user:password@host:port/dbname
 - postgresql: postgresql://user:password@host:port/dbname
 - dameng: dameng://user:password@host:port/dbname
@@ -264,18 +277,20 @@ uv run python extract_schema.py --config db_config.json --output supplier_schema
 
 #### 参数说明
 
-| 参数名 | 类型 | 必填 | 描述 |
-|--------|------|------|------|
-| dataset_id | string | 是 | 包含数据库架构的Dify知识库ID，支持多个ID用逗号分隔 |
-| llm | model-selector | 是 | 用于生成SQL和分析的大语言模型 |
-| content | string | 是 | 要转换为SQL的自然语言问题 |
-| dialect | select | 是 | SQL方言（MySQL/PostgreSQL/MSSQL/Oracle/达梦）|
-| output_format | select | 是 | 输出格式（JSON/Markdown/Summary）|
-| top_k | number | 否 | 从知识库检索的结果数量（默认5）|
-| max_rows | number | 否 | 返回的最大行数（默认500，防止过多数据）|
-| example_dataset_id | string | 否 | 示例知识库ID，可提供SQL示例提高生成质量 |
-| enable_refiner | boolean | 否 | 启用SQL自动修复功能（实验性，默认false）|
-| max_refine_iterations | number | 否 | SQL修复最大尝试次数（1-5，默认3）|
+
+| 参数名                   | 类型             | 必填  | 描述                                      |
+| --------------------- | -------------- | --- | --------------------------------------- |
+| dataset_id            | string         | 是   | 包含数据库架构的Dify知识库ID，支持多个ID用逗号分隔           |
+| llm                   | model-selector | 是   | 用于生成SQL和分析的大语言模型                        |
+| content               | string         | 是   | 要转换为SQL的自然语言问题                          |
+| dialect               | select         | 是   | SQL方言（MySQL/PostgreSQL/MSSQL/Oracle/达梦） |
+| output_format         | select         | 是   | 输出格式（JSON/Markdown/Summary）             |
+| top_k                 | number         | 否   | 从知识库检索的结果数量（默认5）                        |
+| max_rows              | number         | 否   | 返回的最大行数（默认500，防止过多数据）                   |
+| example_dataset_id    | string         | 否   | 示例知识库ID，可提供SQL示例提高生成质量                  |
+| enable_refiner        | boolean        | 否   | 启用SQL自动修复功能（实验性，默认false）                |
+| max_refine_iterations | number         | 否   | SQL修复最大尝试次数（1-5，默认3）                    |
+
 
 #### SQL自动修复功能（实验性）
 
@@ -287,6 +302,7 @@ uv run python extract_schema.py --config db_config.json --output supplier_schema
 4. **透明过程**: 在 `<think>` 标签中展示修复过程
 
 **修复场景示例**:
+
 - ✅ 列名拼写错误（如 `name` → `username`）
 - ✅ 表名不存在或错误
 - ✅ JOIN条件错误
@@ -294,6 +310,7 @@ uv run python extract_schema.py --config db_config.json --output supplier_schema
 - ✅ 语法错误（方言特定语法）
 
 **使用建议**:
+
 - 🧪 实验性功能，开启会额外增加token的消耗
 - 📝 复杂Schema场景下效果更佳
 - ⚡ 会增加2-10秒的响应时间
@@ -311,13 +328,15 @@ uv run python extract_schema.py --config db_config.json --output supplier_schema
 
 #### 配置选项
 
-| 参数名 | 类型 | 必填 | 描述 |
-|--------|------|------|------|
-| data_content | string | 是 | 需要分析的数据内容 |
-| llm | model-selector | 是 | 用于分析的大语言模型 |
-| query | string | 是 | 分析查询或关注领域 |
-| custom_rules | string | 否 | 自定义分析规则 |
-| user_prompt | string | 否 | 自定义prompt |
+
+| 参数名          | 类型             | 必填  | 描述         |
+| ------------ | -------------- | --- | ---------- |
+| data_content | string         | 是   | 需要分析的数据内容  |
+| llm          | model-selector | 是   | 用于分析的大语言模型 |
+| query        | string         | 是   | 分析查询或关注领域  |
+| custom_rules | string         | 否   | 自定义分析规则    |
+| user_prompt  | string         | 否   | 自定义prompt  |
+
 
 ### 6. llm_chart_generator 工具
 
@@ -334,12 +353,13 @@ uv run python extract_schema.py --config db_config.json --output supplier_schema
 
 #### 配置选项
 
-| 参数名         | 类型           | 必填 | 描述                                                         |
-|----------------|----------------|------|--------------------------------------------------------------|
-| user_question  | string         | 是   | 用户问题，描述需要生成的图表类型和需求（如销售趋势、市场份额）|
-| data           | string         | 是   | 用于可视化的数据，支持 JSON、CSV 或结构化数据                |
-| llm            | model-selector | 是   | 用于分析和生成图表的大语言模型                               |
-| sql_query        | string         | 是   | 查询的sql语句，用于推荐图表和字段                           |
+
+| 参数名           | 类型             | 必填  | 描述                              |
+| ------------- | -------------- | --- | ------------------------------- |
+| user_question | string         | 是   | 用户问题，描述需要生成的图表类型和需求（如销售趋势、市场份额） |
+| data          | string         | 是   | 用于可视化的数据，支持 JSON、CSV 或结构化数据     |
+| llm           | model-selector | 是   | 用于分析和生成图表的大语言模型                 |
+| sql_query     | string         | 是   | 查询的sql语句，用于推荐图表和字段              |
 
 
 ---
@@ -368,18 +388,18 @@ A: 可以在 custom_rules 参数中指定特定的分析要求、关注点或约
 
 ## 📸 示例截图
 
-![Schema 构建界面](./_assets/image-0.png)
+Schema 构建界面
 
-![查询结果展示](./_assets/image-2.png)
+查询结果展示
 
-![数据总结报告](./_assets/image-3.png)
+数据总结报告
 
 ---
 
 ## 📞 联系方式
 
 - **开发者**: [Dylan Jiang](https://github.com/weijunjiang123)
-- **邮箱**: <weijun.jiang@jototech.cn>
+- **邮箱**: [weijun.jiang@jototech.cn](mailto:weijun.jiang@jototech.cn)
 
 ---
 
