@@ -102,7 +102,7 @@ REMOTE_INSTALL_KEY=<debug-key-from-dify>
 | PostgreSQL | 5432 | `psycopg2` | `postgresql+psycopg2://user:pass@host:port/db` |
 | SQL Server | 1433 | `pymssql` | `mssql+pymssql://user:pass@host:port/db` |
 | Oracle | 1521 | `oracledb` | `oracle+oracledb://user:pass@host:port/?service_name=db` |
-| DamengDB | 5236 | `dmPython` | `dm+dmPython://user:pass@host:port/db` |
+| DamengDB | 5236 | `dmPython` | `dm+dmPython://user:pass@host:port` |
 | Doris | - | `mysql` | `doris+mysql://user:pass@host:port/db` |
 
 ---

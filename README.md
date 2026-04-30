@@ -1,18 +1,16 @@
 # SchemaRAG Database Schema RAG Plugin
 
-[![Version](https://img.shields.io/badge/version-0.1.6-blue.svg)](https://github.com/weijunjiang123/schemarag)
-[![Python](https://img.shields.io/badge/python-3.8+-green.svg)](https://www.python.org/)
+[Version](https://github.com/weijunjiang123/schemarag)
+[Python](https://www.python.org/)
 
 **Author:** joto  
 **Version:** 0.1.6 
 **Type:** tool  
-**Repository:** <https://github.com/JOTO-AI/SchemaRAG-dify-plugin>
+**Repository:** [https://github.com/JOTO-AI/SchemaRAG-dify-plugin](https://github.com/JOTO-AI/SchemaRAG-dify-plugin)
 
 [中文文档](https://github.com/JOTO-AI/SchemaRAG-dify-plugin/blob/main/README_CN.md)
 
 ---
-
-<img src="./_assets/logo.jpg" height="100" alt="logo" style="border-radius:10px;">
 
 ## Overview
 
@@ -37,26 +35,31 @@ Example workflow [download](https://github.com/JOTO-AI/SchemaRAG-dify-plugin/blo
 
 ## 📋 Configuration Parameters
 
-| Parameter Name    | Type   | Required | Description                    | Example                   |
-|------------------|--------|----------|--------------------------------|---------------------------|
-| Dataset API Key  | secret | Yes      | Dify knowledge base API key    | dataset-xxx               |
-| Database Type    | select | Yes      | Database type MySQL/PostgreSQL/MSSQL/Oracle/DM | MySQL                     |
-| Database Host    | string | Yes      | Database host/IP               | 127.0.0.1                 |
-| Database Port    | number | Yes      | Database port                  | 3306/5432                 |
-| Database User    | string | Yes      | Database username              | root                      |
-| Database Password| secret | Yes      | Database password              | ******                    |
-| Database Name    | string | Yes      | Database name                  | mydb                      |
-| Dify Base URL    | string | No       | Dify API base URL              | `https://api.dify.ai/v1`  |
+
+| Parameter Name    | Type   | Required | Description                                    | Example                  |
+| ----------------- | ------ | -------- | ---------------------------------------------- | ------------------------ |
+| Dataset API Key   | secret | Yes      | Dify knowledge base API key                    | dataset-xxx              |
+| Database Type     | select | Yes      | Database type MySQL/PostgreSQL/MSSQL/Oracle/DM | MySQL                    |
+| Database Host     | string | Yes      | Database host/IP                               | 127.0.0.1                |
+| Database Port     | number | Yes      | Database port                                  | 3306/5432                |
+| Database User     | string | Yes      | Database username                              | root                     |
+| Database Password | secret | Yes      | Database password                              | ******                   |
+| Database Name     | string | Yes      | Database name                                  | mydb                     |
+| Dify Base URL     | string | No       | Dify API base URL                              | `https://api.dify.ai/v1` |
+
 
 ## Supported Database Types
 
-| Database Type | Default Port | Driver | Connection String Format |
-|---------------|--------------|--------|--------------------------|
-| MySQL | 3306 | pymysql | `mysql+pymysql://user:password@host:port/database` |
-| PostgreSQL | 5432 | psycopg2-binary | `postgresql://user:password@host:port/database` |
-| Microsoft SQL Server | 1433 | pymssql | `mssql+pymssql://user:password@host:port/database` |
-| Oracle | 1521 | oracledb | `oracle+oracledb://user:password@host:port/database` |
-| DM Database (达梦) | 5236 | dm+pymysql | `dm+pymysql://user:password@host:port/database` |
+DM Database (达梦)  [reference](docs/READEME_DM_INSTALL.md)
+
+| Database Type        | Default Port | Driver          | Connection String Format                             |
+| -------------------- | ------------ | --------------- | ---------------------------------------------------- |
+| MySQL                | 3306         | pymysql         | `mysql+pymysql://user:password@host:port/database`   |
+| PostgreSQL           | 5432         | psycopg2-binary | `postgresql://user:password@host:port/database`      |
+| Microsoft SQL Server | 1433         | pymssql         | `mssql+pymssql://user:password@host:port/database`   |
+| Oracle               | 1521         | oracledb        | `oracle+oracledb://user:password@host:port/database` |
+| DM Database (达梦)     | 5236         | dm+pymysql      | `dm+pymysql://user:password@host:port/database`      |
+
 
 ---
 
@@ -71,15 +74,17 @@ uv run main.py
 ### Method 2: Dify Plugin Integration
 
 1. Fill in the above parameters in the Dify platform plugin configuration interface
-![Plugin Configuration](./_assets/image-1.png)
 
-2. After configuration is complete and accurate, click save to automatically build the configured database schema knowledge base in Dify
+Plugin Configuration
 
-3. Add tools in the workflow and configure the knowledge base ID that was just created (the knowledge base ID is in the URL of the knowledge base page)
-![Workflow Node Configuration](./_assets/image-4.png)
+1. After configuration is complete and accurate, click save to automatically build the configured database schema knowledge base in Dify
+2. Add tools in the workflow and configure the knowledge base ID that was just created (the knowledge base ID is in the URL of the knowledge base page)
 
-4. Provide SQL execution tool, input the generated SQL for direct execution, supports markdown and json output
-![Workflow Node Configuration](./_assets/image-5.png)
+Workflow Node Configuration
+
+1. Provide SQL execution tool, input the generated SQL for direct execution, supports markdown and json output
+
+Workflow Node Configuration
 
 ### Method 3: Code Invocation
 
@@ -117,13 +122,15 @@ print(result)
 
 #### Parameter Configuration
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| dataset_id | string | Yes | Dify knowledge base ID containing database schema |
-| llm | model-selector | Yes | Large language model for SQL generation |
-| content | string | Yes | Natural language question to convert to SQL |
-| dialect | select | Yes | SQL dialect (MySQL/PostgreSQL/MSSQL/Oracle/DM) |
-| top_k | number | No | Number of results to retrieve from knowledge base (default 5) |
+
+| Parameter  | Type           | Required | Description                                                   |
+| ---------- | -------------- | -------- | ------------------------------------------------------------- |
+| dataset_id | string         | Yes      | Dify knowledge base ID containing database schema             |
+| llm        | model-selector | Yes      | Large language model for SQL generation                       |
+| content    | string         | Yes      | Natural language question to convert to SQL                   |
+| dialect    | select         | Yes      | SQL dialect (MySQL/PostgreSQL/MSSQL/Oracle/DM)                |
+| top_k      | number         | No       | Number of results to retrieve from knowledge base (default 5) |
+
 
 ### 2. sql_executer Tool
 
@@ -139,11 +146,13 @@ print(result)
 
 #### Parameter Configuration
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| sql | string | Yes | SQL query statement to execute |
-| output_format | select | Yes | Output format (JSON/Markdown) |
-| max_line | int | No | Maximum number of query rows (default 1000) |
+
+| Parameter     | Type   | Required | Description                                 |
+| ------------- | ------ | -------- | ------------------------------------------- |
+| sql           | string | Yes      | SQL query statement to execute              |
+| output_format | select | Yes      | Output format (JSON/Markdown)               |
+| max_line      | int    | No       | Maximum number of query rows (default 1000) |
+
 
 ### 3. sql_executer_cust Tool
 
@@ -160,14 +169,17 @@ print(result)
 
 #### Parameter Configuration
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| database_url | string | Yes | Database connection URL |
-| sql | string | Yes | SQL query statement to execute |
-| output_format | select | Yes | Output format (JSON/Markdown) |
-| max_line | int | No | Maximum number of query rows (default 1000) |
+
+| Parameter     | Type   | Required | Description                                 |
+| ------------- | ------ | -------- | ------------------------------------------- |
+| database_url  | string | Yes      | Database connection URL                     |
+| sql           | string | Yes      | SQL query statement to execute              |
+| output_format | select | Yes      | Output format (JSON/Markdown)               |
+| max_line      | int    | No       | Maximum number of query rows (default 1000) |
+
 
 Database connection URL examples:
+
 - mysql: mysql://user:password@host:port/dbname
 - postgresql: postgresql://user:password@host:port/dbname
 - DM: dameng://user:password@host:port/dbname
@@ -189,18 +201,20 @@ Database connection URL examples:
 
 #### Parameter Configuration
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| dataset_id | string | Yes | Dify knowledge base ID containing database schema, supports multiple IDs separated by commas |
-| llm | model-selector | Yes | Large language model for SQL generation and analysis |
-| content | string | Yes | Natural language question to convert to SQL |
-| dialect | select | Yes | SQL dialect (MySQL/PostgreSQL/MSSQL/Oracle/DM) |
-| output_format | select | Yes | Output format (JSON/Markdown/Summary) |
-| top_k | number | No | Number of results to retrieve from knowledge base (default 5) |
-| max_rows | number | No | Maximum number of rows to return (default 500, prevents excessive data) |
-| example_dataset_id | string | No | Example knowledge base ID, can provide SQL examples to improve generation quality |
-| enable_refiner | boolean | No | Enable SQL auto-repair feature (experimental, default false) |
-| max_refine_iterations | number | No | Maximum SQL repair attempts (1-5, default 3) |
+
+| Parameter             | Type           | Required | Description                                                                                  |
+| --------------------- | -------------- | -------- | -------------------------------------------------------------------------------------------- |
+| dataset_id            | string         | Yes      | Dify knowledge base ID containing database schema, supports multiple IDs separated by commas |
+| llm                   | model-selector | Yes      | Large language model for SQL generation and analysis                                         |
+| content               | string         | Yes      | Natural language question to convert to SQL                                                  |
+| dialect               | select         | Yes      | SQL dialect (MySQL/PostgreSQL/MSSQL/Oracle/DM)                                               |
+| output_format         | select         | Yes      | Output format (JSON/Markdown/Summary)                                                        |
+| top_k                 | number         | No       | Number of results to retrieve from knowledge base (default 5)                                |
+| max_rows              | number         | No       | Maximum number of rows to return (default 500, prevents excessive data)                      |
+| example_dataset_id    | string         | No       | Example knowledge base ID, can provide SQL examples to improve generation quality            |
+| enable_refiner        | boolean        | No       | Enable SQL auto-repair feature (experimental, default false)                                 |
+| max_refine_iterations | number         | No       | Maximum SQL repair attempts (1-5, default 3)                                                 |
+
 
 #### SQL Auto-Repair Feature (Experimental)
 
@@ -212,6 +226,7 @@ When `enable_refiner` is enabled, if the generated SQL execution fails, the syst
 4. **Transparent Process**: Display repair process within `<think>` tags
 
 **Repair Scenario Examples**:
+
 - ✅ Column name spelling errors (e.g., `name` → `username`)
 - ✅ Table name does not exist or is incorrect
 - ✅ JOIN condition errors
@@ -219,6 +234,7 @@ When `enable_refiner` is enabled, if the generated SQL execution fails, the syst
 - ✅ Syntax errors (dialect-specific syntax)
 
 **Usage Recommendations**:
+
 - 🧪 Experimental feature,Enabling it will increase the consumption of tokens additionally.
 - 📝 Better results in complex Schema scenarios
 - ⚡ Adds 2-10 seconds to response time
@@ -236,13 +252,15 @@ When `enable_refiner` is enabled, if the generated SQL execution fails, the syst
 
 #### Configuration Options
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| data_content | string | Yes | Data content to be analyzed |
-| llm | model-selector | Yes | Large language model for analysis |
-| query | string | Yes | Analysis query or focus area |
-| custom_rules | string | No | Custom analysis rules |
-| user_prompt | string | No | Custom prompt |
+
+| Parameter    | Type           | Required | Description                       |
+| ------------ | -------------- | -------- | --------------------------------- |
+| data_content | string         | Yes      | Data content to be analyzed       |
+| llm          | model-selector | Yes      | Large language model for analysis |
+| query        | string         | Yes      | Analysis query or focus area      |
+| custom_rules | string         | No       | Custom analysis rules             |
+| user_prompt  | string         | No       | Custom prompt                     |
+
 
 ### 6. llm_chart_generator Tool
 
@@ -259,12 +277,14 @@ When `enable_refiner` is enabled, if the generated SQL execution fails, the syst
 
 #### Configuration Options
 
-| Parameter | Type | Required | Description |
-|-----------|------|----------|-------------|
-| user_question | string | Yes | User question describing the chart type and requirements (e.g., sales trends, market share) |
-| data | string | Yes | Data for visualization, supports JSON, CSV, or structured data |
-| llm | model-selector | Yes | Large language model for analysis and chart generation |
-| sql_query | string | Yes | SQL query statement used to recommend charts and fields |
+
+| Parameter     | Type           | Required | Description                                                                                 |
+| ------------- | -------------- | -------- | ------------------------------------------------------------------------------------------- |
+| user_question | string         | Yes      | User question describing the chart type and requirements (e.g., sales trends, market share) |
+| data          | string         | Yes      | Data for visualization, supports JSON, CSV, or structured data                              |
+| llm           | model-selector | Yes      | Large language model for analysis and chart generation                                      |
+| sql_query     | string         | Yes      | SQL query statement used to recommend charts and fields                                     |
+
 
 ---
 
@@ -292,20 +312,20 @@ A: You can specify specific analysis requirements, focus points, or constraints 
 
 ## 📸 Example Screenshots
 
-![Schema Building Interface](./_assets/image-0.png)
+Schema Building Interface
 
-![Workflow Configuration](./_assets/image-1.png)
+Workflow Configuration
 
-![Query Results Display](./_assets/image-2.png)
+Query Results Display
 
-![Data Summary Report](./_assets/image-3.png)
+Data Summary Report
 
 ---
 
 ## 📞 Contact
 
 - **Developer**: [Dylan Jiang](https://github.com/weijunjiang123)
-- **Email**: <weijun.jiang@jototech.cn>
+- **Email**: [weijun.jiang@jototech.cn](mailto:weijun.jiang@jototech.cn)
 
 ---
 
